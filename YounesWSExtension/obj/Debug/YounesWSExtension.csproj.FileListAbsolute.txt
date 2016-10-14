@@ -1,0 +1,8 @@
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWSExtension\bin\Debug\Templates\CustomCodeGenerator\WebServiceASMX.cs.t4
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWSExtension\bin\Debug\Templates\CustomCodeGenerator\WebServiceCS.cs.t4
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWSExtension\bin\Debug\YounesWSExtension.vsix
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWSExtension\bin\Debug\extension.vsixmanifest
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWSExtension\obj\Debug\YounesWSExtension.csprojResolveAssemblyReference.cache
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWSExtension\obj\Debug\YounesWSExtension.dll
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWSExtension\obj\Debug\YounesWSExtension.pdb
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWSExtension\obj\Debug\extension.vsixmanifest

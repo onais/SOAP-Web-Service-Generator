@@ -1,0 +1,12 @@
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\bin\Debug\Templates\CustomCodeGenerator\WebServiceASMX.cs.t4
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\bin\Debug\Templates\CustomCodeGenerator\WebServiceCS.cs.t4
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\bin\Debug\YounesWS.dll
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\bin\Debug\YounesWS.pdb
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\obj\Debug\UI\SelectModelWindow.baml
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\obj\Debug\UI\SelectModelWindow.g.cs
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\obj\Debug\YounesWS_MarkupCompile.cache
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\obj\Debug\YounesWS.g.resources
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\obj\Debug\YounesWS.Resources.resources
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\obj\Debug\YounesWS.csproj.GenerateResource.Cache
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\obj\Debug\YounesWS.dll
+C:\Users\imed\Dropbox\Generators\YounesWS_2.0\YounesWS\YounesWS\obj\Debug\YounesWS.pdb

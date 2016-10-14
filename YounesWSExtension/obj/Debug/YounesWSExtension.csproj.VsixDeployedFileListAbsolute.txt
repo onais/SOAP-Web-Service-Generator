@@ -1,0 +1,5 @@
+C:\Users\imed\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Younes\YounesWS\1.0\\extension.vsixmanifest
+C:\Users\imed\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Younes\YounesWS\1.0\\YounesWS.dll
+C:\Users\imed\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Younes\YounesWS\1.0\\Templates\CustomCodeGenerator\WebServiceASMX.cs.t4
+C:\Users\imed\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Younes\YounesWS\1.0\\Templates\CustomCodeGenerator\WebServiceCS.cs.t4
+C:\Users\imed\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Younes\YounesWS\1.0\\YounesWS.pdb

@@ -1,0 +1,3 @@
+C:\Users\imed\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Younes\YounesWS\1.0\\extension.vsixmanifest
+C:\Users\imed\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Younes\YounesWS\1.0\\YounesController.dll
+C:\Users\imed\AppData\Local\Microsoft\VisualStudio\12.0Exp\Extensions\Younes\YounesWS\1.0\\YounesController.pdb

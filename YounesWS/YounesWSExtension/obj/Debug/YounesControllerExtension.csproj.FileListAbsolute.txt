@@ -1,0 +1,13 @@
+E:\Exam70-486_Projects\YounesController\YounesController\YounesControllerExtension\bin\Debug\Templates\CustomCodeGenerator\CustomTextTemplate.cs.t4
+E:\Exam70-486_Projects\YounesController\YounesController\YounesControllerExtension\bin\Debug\YounesControllerExtension.vsix
+E:\Exam70-486_Projects\YounesController\YounesController\YounesControllerExtension\bin\Debug\extension.vsixmanifest
+E:\Exam70-486_Projects\YounesController\YounesController\YounesControllerExtension\bin\Debug\YounesController.dll
+E:\Exam70-486_Projects\YounesController\YounesController\YounesControllerExtension\bin\Debug\YounesController.pdb
+E:\Exam70-486_Projects\YounesController\YounesController\YounesControllerExtension\obj\Debug\YounesControllerExtension.csprojResolveAssemblyReference.cache
+E:\Exam70-486_Projects\YounesController\YounesController\YounesControllerExtension\obj\Debug\YounesControllerExtension.dll
+E:\Exam70-486_Projects\YounesController\YounesController\YounesControllerExtension\obj\Debug\YounesControllerExtension.pdb
+E:\Exam70-486_Projects\YounesController\YounesController\YounesControllerExtension\obj\Debug\extension.vsixmanifest
+C:\Users\imed\Dropbox\YounesController\YounesController\YounesControllerExtension\bin\Debug\Templates\CustomCodeGenerator\CustomTextTemplate.cs.t4
+C:\Users\imed\Dropbox\YounesController\YounesController\YounesControllerExtension\obj\Debug\YounesControllerExtension.dll
+C:\Users\imed\Dropbox\YounesController\YounesController\YounesControllerExtension\obj\Debug\YounesControllerExtension.pdb
+C:\Users\imed\Dropbox\YounesController\YounesController\YounesControllerExtension\obj\Debug\extension.vsixmanifest

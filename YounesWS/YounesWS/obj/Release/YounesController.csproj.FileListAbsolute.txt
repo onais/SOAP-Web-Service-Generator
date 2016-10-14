@@ -1,0 +1,10 @@
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesController\YounesController\bin\Release\YounesController.dll
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesController\YounesController\bin\Release\YounesController.pdb
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesController\YounesController\obj\Release\UI\SelectModelWindow.baml
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesController\YounesController\obj\Release\UI\SelectModelWindow.g.cs
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesController\YounesController\obj\Release\YounesController_MarkupCompile.cache
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesController\YounesController\obj\Release\YounesController.g.resources
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesController\YounesController\obj\Release\YounesController.Resources.resources
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesController\YounesController\obj\Release\YounesController.csproj.GenerateResource.Cache
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesController\YounesController\obj\Release\YounesController.dll
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesController\YounesController\obj\Release\YounesController.pdb

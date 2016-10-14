@@ -1,0 +1,6 @@
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesControllerExtension\bin\Release\YounesControllerExtension.vsix
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesControllerExtension\bin\Release\extension.vsixmanifest
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesControllerExtension\obj\Release\YounesControllerExtension.csprojResolveAssemblyReference.cache
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesControllerExtension\obj\Release\YounesControllerExtension.dll
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesControllerExtension\obj\Release\YounesControllerExtension.pdb
+C:\Users\imed\Dropbox\YounesWS_1.0\YounesControllerExtension\obj\Release\extension.vsixmanifest

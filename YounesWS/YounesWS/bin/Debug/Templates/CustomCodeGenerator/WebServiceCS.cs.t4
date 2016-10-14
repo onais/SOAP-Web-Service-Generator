@@ -1,0 +1,386 @@
+﻿<#@ template language="C#" HostSpecific="True" Debug="True" #>
+<#@ output extension="cs" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data.Linq" #>
+<#@ ScaffoldingAssembly Processor="ScaffoldingAssemblyLoader" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="Microsoft.AspNet.Scaffolding.Core.Metadata" #>
+<#@ parameter type="System.String" name="ProjectName" #>
+<#@ parameter type="System.String" name="ContextName" #>
+<#@ parameter type="System.String[,]" name="AllWsParams" #>
+<#@ parameter type="System.String[]" name="Regions" #>
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net.Mail;
+using System.Web;
+using System.Web.Security;
+using System.Web.Services;
+using WebMatrix.WebData;
+using WebServices;
+using <#=ProjectName#>.Helpers;
+using <#=ProjectName#>.Models;
+namespace <#=ProjectName#>.WebServices
+{
+    /// <summary>
+    /// Summary description for <#=ProjectName#>
+    /// </summary>
+    [WebService(Namespace = "http://tempuri.org/", Description = "<h1 style='color:green'><#=ProjectName#> mobile application</h1>")]
+    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+    [System.ComponentModel.ToolboxItem(false)]
+    // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
+    // [System.Web.Script.Services.ScriptService]
+    public class <#=ProjectName#> : System.Web.Services.WebService
+    {
+		public const string SECURITY_ERROR = "Error: Access security error.";
+        //public const string DISABLED_USER_ERROR = "Error: Disabled user.";
+        public const string INCORRECT_LOGIN_PASSWORD = "Error: incorrect phone and/or password.";
+        public const string INCORRECT_PHONE = "Error: There is no user registred with this phone.";
+        public const string BLOCKED_USER_ERROR = "Error: you can't do this operation because you are blocked.";
+        public const string NO_ROW_AFFECTED = "Error: no row affected.";
+        public const string NO_ROW_SELECTED = "no row selected.";
+        public const string UNSENT_MESSAGE_ERROR = "Error: unsent message.";
+        public const string SUCCESS = "Success.";
+        public string URL_COMPAGNY = Tls.GetBasicUrl() + "/Zdnn000<#=String.Concat(ProjectName.Where(s => String.Equals(s+"", (s+"").ToUpper(),StringComparison.Ordinal)))#>Upload/__zd00__Compagny/";
+        public string URL_CATEGORY = Tls.GetBasicUrl() + "/Zdnn000<#=String.Concat(ProjectName.Where(s => String.Equals(s+"", (s+"").ToUpper(),StringComparison.Ordinal)))#>Upload/__zd00__Category/";
+        public string URL_PERSON = Tls.GetBasicUrl() + "/Zdnn000<#=String.Concat(ProjectName.Where(s => String.Equals(s+"", (s+"").ToUpper(),StringComparison.Ordinal)))#>Upload/__zd00__Person/";
+        public string URL_ADVERTISING = Tls.GetBasicUrl() + "/Zdnn000<#=String.Concat(ProjectName.Where(s => String.Equals(s+"", (s+"").ToUpper(),StringComparison.Ordinal)))#>Upload/__zd00__Advertising/";
+
+        public string COMPANY_PATH = "__zd00__Compagny";
+        public string CATEGORY_PATH = "__zd00__Category";
+        public string PERSON_PATH = "__zd00__Person";
+        public string ADVERTISING_PATH = "__zd00__Advertising";
+        public string BASE_PATH = "~/Zdnn000<#=String.Concat(ProjectName.Where(s => String.Equals(s+"", (s+"").ToUpper(),StringComparison.Ordinal)))#>Upload/";
+
+        private <#=ProjectName#>Entities db = new <#=ProjectName#>Entities();
+
+		#region Tools
+
+        public UserCredentials consumer;
+        public bool applySecurity = false;
+
+        private bool checkConsumer()
+        {
+            if (applySecurity)
+            {
+
+                if (consumer != null)
+                {
+                    if (consumer.Zed_UserName == UserCredentials.protectedUsername && consumer.Zed_Password == UserCredentials.protectedPassword)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private void UploadImage(string Img, string directory, string name)
+        {
+            MemoryStream memoryStream = new MemoryStream(Convert.FromBase64String(Img));
+            Image image = Image.FromStream(memoryStream);
+            image.Save(HttpRuntime.AppDomainAppPath + @"\Zdnn000<#=String.Concat(ProjectName.Where(s => String.Equals(s+"", (s+"").ToUpper(),StringComparison.Ordinal)))#>Upload\" + directory + "\\" + name);
+        }
+
+        #endregion Tools
+
+		#region account
+
+		[WebMethod(Description = "<p style='color:green;font-size:12px;'>We send code reset password to the mail; then we use this code to reset the password;</p>")]
+        public ZedneySoapResult<ZedneyNonQuery> ForgotPassword(string email)
+        {
+            ZedneySoapResult<ZedneyNonQuery> zedneySoapResult = new ZedneySoapResult<ZedneyNonQuery>();
+            try
+            {
+
+                if (!checkConsumer())
+                {
+                    zedneySoapResult.resultNum = -1;
+                    zedneySoapResult.resultMessage = SECURITY_ERROR;
+                    return zedneySoapResult;
+                }
+
+                 UserProfile user = db.UserProfile.Where(i=>i.Username==email).FirstOrDefault();
+
+                if (user == null)
+                {
+                    zedneySoapResult.resultNum = -4;
+                    zedneySoapResult.resultMessage = "Error : There is no user registred with email";
+                    return zedneySoapResult;
+                }
+                try
+                {
+                    var token = WebSecurity.GeneratePasswordResetToken(email);
+                    var code = Tls.getRandomCode();
+                    //insert code into database if the userid not exsisting and override the code if userid exsist and increment the numbers of attemps
+                    db.spResetPasswordAddOrUpdate(WebSecurity.GetUserId(email), code, DateTime.Now.ToString(), token);
+
+                    SendEmailResetPassword(user.Username,code,user.Username);
+
+                    ZedneyNonQuery zedneyNonQuery = new ZedneyNonQuery();
+                    zedneySoapResult.resultObject.Add(zedneyNonQuery);
+                    zedneySoapResult.resultNum = 1;
+                    zedneySoapResult.resultMessage = SUCCESS;
+
+                    return zedneySoapResult;
+                }
+                catch (Exception e)
+                {
+
+                    zedneySoapResult.resultNum = -3;
+                    zedneySoapResult.resultMessage = "Error:" + "problem sending the email";
+                    return zedneySoapResult;
+                }
+
+            }
+            catch (Exception exp)
+            {
+                zedneySoapResult.resultNum = -2;
+                zedneySoapResult.resultMessage = "Error:" + exp.Message;
+                return zedneySoapResult;
+            }
+        }
+
+		[WebMethod(Description = "<p style='color:green;font-size:12px;'>We send code reset password to the mail; then we use this code to reset the password;</p>")]
+        public ZedneySoapResult<ZedneyNonQuery> ResetPassword(string email, string codeRest, string newPassword)
+        {
+            ZedneySoapResult<ZedneyNonQuery> zedneySoapResult = new ZedneySoapResult<ZedneyNonQuery>();
+            try
+            {
+
+                if (!checkConsumer())
+                {
+                    zedneySoapResult.resultNum = -1;
+                    zedneySoapResult.resultMessage = SECURITY_ERROR;
+                    return zedneySoapResult;
+                }
+                UserProfile user = db.UserProfile.Where(i=>i.Username==email).FirstOrDefault();
+
+                if (user == null)
+                {
+                    zedneySoapResult.resultNum = -4;
+                    zedneySoapResult.resultMessage = "Error : There is no business registred with email";
+                    return zedneySoapResult;
+                }
+                List<spResetPasswordGet_Result> rsp = db.spResetPasswordGet(email, codeRest, DateTime.Now.ToString()).ToList();
+                if (rsp.Count() > 0)
+                {
+                    var token = rsp.Last().token;
+                    bool resetResponse = WebSecurity.ResetPassword(token, newPassword);
+                    if (resetResponse)
+                    {
+                        ZedneyNonQuery zedneyNonQuery = new ZedneyNonQuery();
+                        zedneySoapResult.resultObject.Add(zedneyNonQuery);
+                        zedneySoapResult.resultNum = 1;
+                        zedneySoapResult.resultMessage = SUCCESS;
+                        return zedneySoapResult;
+                    }
+                    else
+                    {
+                        zedneySoapResult.resultNum = -3;
+                        zedneySoapResult.resultMessage = "Error:" + "code incorrect";
+                        return zedneySoapResult;
+                    }
+                }
+                else
+                {
+
+                    zedneySoapResult.resultNum = -3;
+                    zedneySoapResult.resultMessage = "Error:" + "code incorrect";
+                    return zedneySoapResult;
+                }
+            }
+            catch (Exception exp)
+            {
+
+                zedneySoapResult.resultNum = -2;
+                zedneySoapResult.resultMessage = "Error:" + exp.Message;
+                return zedneySoapResult;
+            }
+        }
+
+    #endregion account
+
+
+		<# int i=0;for (i=0;i<Regions.Length;i++) {#>
+
+		#region <#=Regions[i]#>
+			
+		[WebMethod]
+        public ZedneySoapResult<spWS_<#=Regions[i]#>GetByEmail_Result> Login<#=Regions[i]#>(string email, string password)
+        {
+            ZedneySoapResult<spWS_<#=Regions[i]#>GetByEmail_Result> zedneySoapResult = new ZedneySoapResult<spWS_<#=Regions[i]#>GetByEmail_Result>();
+            try
+            {
+                if (!checkConsumer())
+                {
+                    zedneySoapResult.resultNum = -1;
+                    zedneySoapResult.resultMessage = SECURITY_ERROR;
+                    return zedneySoapResult;
+                }
+                spWS_<#=Regions[i]#>GetByEmail_Result user = db.spWS_<#=Regions[i]#>GetByEmail(email).FirstOrDefault();
+                if (user == null)
+                {
+                    zedneySoapResult.resultNum = -2;
+                    zedneySoapResult.resultMessage = "Error : Email or password are incorrect";
+                    return zedneySoapResult;
+                }
+                else if (!WebSecurity.Login(user.OwnerEmail, password))
+                {
+                    zedneySoapResult.resultNum = -2;
+                    zedneySoapResult.resultMessage = "Error : Email or password are incorrect";
+                    return zedneySoapResult;
+                }
+
+                zedneySoapResult.resultObject.Add(user);
+                zedneySoapResult.resultNum = 1;
+                zedneySoapResult.resultMessage = SUCCESS;
+                return zedneySoapResult;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+                zedneySoapResult.resultNum = -2;
+                zedneySoapResult.resultMessage = "Error:" + exp.Message;
+                return zedneySoapResult;
+            }
+        }
+
+
+	
+
+
+		#endregion <#=Regions[i]#>
+
+
+		<# } #>
+
+
+
+		
+			<# i=0;for (i=0;i<AllWsParams.Length;i++) { if(AllWsParams[i,0]==null) break;#>
+
+			<# if(AllWsParams[i,0].Equals("True")){ #>
+
+	    [WebMethod]
+	    public ZedneySoapResult<<#=AllWsParams[i,1]#>_Result> <#=AllWsParams[i,1]#>(<#=AllWsParams[i,2]#>)
+        {
+            ZedneySoapResult<<#=AllWsParams[i,1]#>_Result> zedneySoapResult = new ZedneySoapResult<<#=AllWsParams[i,1]#>_Result>();
+
+            try
+            {
+                if (!checkConsumer())
+                {
+                    zedneySoapResult.resultNum = -1;
+                    zedneySoapResult.resultMessage = SECURITY_ERROR;
+                    return zedneySoapResult;
+                }
+
+                List<<#=AllWsParams[i,1]#>_Result> list = db.<#=AllWsParams[i,1]#>(<#=AllWsParams[i,3]#>).ToList();
+
+                if (list.Count > 0)
+                {
+                    zedneySoapResult.resultObject = list;
+                    zedneySoapResult.resultNum = 1;
+                    zedneySoapResult.resultMessage = SUCCESS;
+                }
+                else
+                {
+                    zedneySoapResult.resultNum = -5;
+                    zedneySoapResult.resultMessage = NO_ROW_SELECTED;
+                }
+
+
+
+                return zedneySoapResult;
+
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+                zedneySoapResult.resultNum = -2;
+                zedneySoapResult.resultMessage = "Error:" + exp.Message;
+                return zedneySoapResult;
+            }
+        }
+		    <# } else { #>
+
+			  //type, name , params with type ,params without type
+
+	    [WebMethod]
+        public ZedneySoapResult<ZedneyNonQuery> <#=AllWsParams[i,1]#>(string email, string password, <#=AllWsParams[i,2]#>)
+        {
+
+            ZedneySoapResult<ZedneyNonQuery> zedneySoapResult = new ZedneySoapResult<ZedneyNonQuery>();
+
+            try
+            {
+                if (!checkConsumer())
+                {
+                    zedneySoapResult.resultNum = -1;
+                    zedneySoapResult.resultMessage = SECURITY_ERROR;
+                    return zedneySoapResult;
+                }
+
+                spWS_UserGetByEmail_Result user = db.spWS_UserGetByEmail(email).FirstOrDefault();
+
+                if (user == null)
+                {
+                    zedneySoapResult.resultNum = -3;
+                    zedneySoapResult.resultMessage = "Error : Email and/or password code are incorrect";
+                    return zedneySoapResult;
+                }
+                else if (!WebSecurity.Login(user.UserName, password))
+                {
+                    zedneySoapResult.resultNum = -3;
+                    zedneySoapResult.resultMessage = "Error : Email and/or password code are incorrect";
+                    return zedneySoapResult;
+                }
+
+
+                int affectedRows = db.<#=AllWsParams[i,1]#>(<#=AllWsParams[i,3]#>);
+                if (affectedRows >= 0)
+                {
+                    ZedneyNonQuery zedneyNonQuery = new ZedneyNonQuery();
+                    zedneyNonQuery.nbrAffectedRows = affectedRows;
+                    zedneySoapResult.resultObject.Add(zedneyNonQuery);
+                    zedneySoapResult.resultNum = 1;
+                    zedneySoapResult.resultMessage = SUCCESS;
+                }
+                else
+                {
+                    zedneySoapResult.resultNum = -1;
+                    zedneySoapResult.resultMessage = NO_ROW_AFFECTED;
+                }
+
+                return zedneySoapResult;
+
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+                zedneySoapResult.resultNum = -2;
+                zedneySoapResult.resultMessage = "Error:" + exp.Message;
+                return zedneySoapResult;
+            }
+        }
+
+
+
+			<# } } #>
+
+
+
+    }
+}
